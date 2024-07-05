@@ -1,0 +1,37 @@
+<div class="container mt-4">
+    <div class="row mb-3">
+        <div class="form-group">
+            <label for="employeeId">Employee ID:</label>
+            <input type="text" id="employeeId" [(ngModel)]="employeeId" required>
+        </div>
+      <div class="col-md-2">
+        <button class="btn btn-primary" (click)="searchEmployeeById()">Search</button>
+      </div>
+    </div>
+    <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+    <table *ngIf="employees.length > 0" class="table table-bordered">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Salary</th>
+          <th>Annual Salary</th>
+          <th>Age</th>
+          <th>Profile Image</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let employee of employees">
+          <td>{{ employee.id }}</td>
+          <td>{{ employee.employee_name }}</td>
+          <td>{{ employee.employee_salary }}</td>
+          <td>{{ employee.employee_salary * 12 }}</td>
+          <td>{{ employee.employee_age }}</td>
+          <td>
+            <img [src]="employee.profile_image" alt="Profile Image" width="50" height="50">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
