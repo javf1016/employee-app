@@ -1,23 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { EmployeeResponse } from '../models/employeeResponse';
-import { EmployeesResponse } from '../models/employeesResponse';
-
+import { Employee } from '../models/employee';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeeService {
-  private static readonly EXTERNAL_API_URL = 'http://localhost:8080/api/employees';
+  private baseUrl = 'http://localhost:8080/api';
 
   constructor(private http: HttpClient) { }
 
-  getAllEmployees(): Observable<EmployeesResponse> {
-    return this.http.get<EmployeesResponse>(`${EmployeeService.EXTERNAL_API_URL}`);
+  getAllEmployees(): Observable<Employee[]> {
+    return this.http.get<Employee[]>(`${this.baseUrl}/employees`);
   }
 
-  getEmployeeById(id: number): Observable<EmployeeResponse> {
-    return this.http.get<EmployeeResponse>(`${EmployeeService.EXTERNAL_API_URL}/${id}`);
+  getEmployeeById(id: number): Observable<Employee> {
+    return this.http.get<Employee>(`${this.baseUrl}/employees/${id}`);
   }
 }

@@ -12,28 +12,42 @@ export class EmployeeSearchComponent implements OnInit {
   employees: Employee[] = [];
   errorMessage: string = '';
 
-  constructor(private employeeService: EmployeeService) { }
+  constructor(private employeeService: EmployeeService) {}
 
   ngOnInit(): void {
     this.getAllEmployees();
   }
 
-  getAllEmployees(): void {
-    this.employeeService.getAllEmployees().subscribe(
-      response => this.employees = response.data,
-      error => this.errorMessage = 'Error fetching employee data'
-    );
-  }
-
   searchEmployeeById(): void {
     if (this.employeeId) {
       const id = parseInt(this.employeeId, 10);
+      console.log("Fetching employee with ID:", id);
+
       this.employeeService.getEmployeeById(id).subscribe(
-        response => this.employees = [response.data],
-        error => this.errorMessage = 'Error fetching employee data'
+        response => {
+          console.log("Response received:", response);
+          this.employees = [response];
+        },
+        error => {
+          console.error("Error fetching employee data:", error);
+          this.errorMessage = 'Error fetching employee data';
+        }
       );
     } else {
       this.getAllEmployees();
     }
+  }
+
+  getAllEmployees(): void {
+    this.employeeService.getAllEmployees().subscribe(
+      employees => {
+        console.log("All employees fetched:", employees);
+        this.employees = employees;
+      },
+      error => {
+        console.error("Error fetching all employees:", error);
+        this.errorMessage = 'Error fetching all employees';
+      }
+    );
   }
 }
